@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate tag and set version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tags must use the vMAJOR.MINOR.PATCH format."
+            exit 1
+          fi
+
+          version="${RELEASE_TAG#v}"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" -c "Set :CFBundleVersion $BUILD_NUMBER" App/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" -c "Set :CFBundleVersion $BUILD_NUMBER" PreviewExtension/Info.plist
+
+      - name: Test parser
+        run: swift test
+
+      - name: Build universal app
+        run: |
+          xcodebuild \
+            -project OpeningBNRQuickLook.xcodeproj \
+            -target OpeningBNRQuickLook \
+            -configuration Release \
+            SYMROOT="$RUNNER_TEMP/build" \
+            ARCHS="arm64 x86_64" \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="-" \
+            DEVELOPMENT_TEAM=""
+
+      - name: Verify bundle
+        run: |
+          app="$RUNNER_TEMP/build/Release/OpeningBNRQuickLook.app"
+          extension="$app/Contents/PlugIns/OpeningBNRPreview.appex"
+
+          lipo "$app/Contents/MacOS/OpeningBNRQuickLook" \
+            -verify_arch arm64 x86_64
+          lipo "$extension/Contents/MacOS/OpeningBNRPreview" \
+            -verify_arch arm64 x86_64
+          codesign --verify --deep --strict "$app"
+
+      - name: Package
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          artifact="OpeningBNRQuickLook-${RELEASE_TAG}.zip"
+          ditto -c -k --sequesterRsrc --keepParent \
+            "$RUNNER_TEMP/build/Release/OpeningBNRQuickLook.app" \
+            "$artifact"
+          shasum -a 256 "$artifact" > "$artifact.sha256"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            "OpeningBNRQuickLook-${RELEASE_TAG}.zip" \
+            "OpeningBNRQuickLook-${RELEASE_TAG}.zip.sha256" \
+            --generate-notes \
+            --verify-tag
