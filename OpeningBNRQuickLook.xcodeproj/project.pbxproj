@@ -11,6 +11,7 @@
 		A10000000000000000000002 /* PreviewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* PreviewProvider.swift */; };
 		A10000000000000000000003 /* BNRFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* BNRFile.swift */; };
 		A10000000000000000000004 /* OpeningBNRPreview.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* OpeningBNRPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A10000000000000000000005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		A20000000000000000000007 /* OpeningBNRQuickLook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpeningBNRQuickLook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000008 /* OpeningBNRPreview.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpeningBNRPreview.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A20000000000000000000009 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A20000000000000000000010 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				A20000000000000000000001 /* OpeningBNRQuickLookApp.swift */,
 				A20000000000000000000004 /* App Info.plist */,
+				A20000000000000000000010 /* Assets.xcassets */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -124,6 +127,7 @@
 			buildPhases = (
 				A70000000000000000000001 /* Sources */,
 				A50000000000000000000001 /* Frameworks */,
+				A70000000000000000000003 /* Resources */,
 				A40000000000000000000001 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -188,6 +192,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A70000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000005 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A70000000000000000000001 /* Sources */ = {
@@ -308,6 +323,7 @@
 		AB0000000000000000000003 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -328,6 +344,7 @@
 		AB0000000000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
