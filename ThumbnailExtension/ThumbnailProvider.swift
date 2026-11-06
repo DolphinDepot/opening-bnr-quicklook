@@ -15,7 +15,8 @@ final class ThumbnailProvider: QLThumbnailProvider {
             let image = try Self.makeImage(from: bnr, factor: max(1, Int((scale * request.scale).rounded(.up))))
 
             handler(QLThumbnailReply(contextSize: size) { context in
-                context.draw(image, in: CGRect(origin: .zero, size: size))
+                // The context is backed at request.scale without a matching CTM, so fill its bounds.
+                context.draw(image, in: context.boundingBoxOfClipPath)
                 return true
             }, nil)
         } catch {
