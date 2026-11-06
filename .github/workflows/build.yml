@@ -35,8 +35,11 @@ jobs:
         run: |
           app="$RUNNER_TEMP/build/Release/OpeningBNRQuickLook.app"
           extension="$app/Contents/PlugIns/OpeningBNRPreview.appex"
+          thumbnail="$app/Contents/PlugIns/OpeningBNRThumbnail.appex"
 
           lipo "$app/Contents/MacOS/OpeningBNRQuickLook" \
             -verify_arch arm64 x86_64
           lipo "$extension/Contents/MacOS/OpeningBNRPreview" \
+            -verify_arch arm64 x86_64
+          lipo "$thumbnail/Contents/MacOS/OpeningBNRThumbnail" \
             -verify_arch arm64 x86_64

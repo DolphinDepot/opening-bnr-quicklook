@@ -6,7 +6,7 @@
 ![Universal](https://img.shields.io/badge/architecture-arm64%20%7C%20x86__64-lightgrey)
 [![License: GPL-3.0](https://img.shields.io/github/license/DolphinDepot/opening-bnr-quicklook)](LICENSE)
 
-A native macOS Quick Look extension for GameCube `opening.bnr` files. It decodes the 96×32 RGB5A3 banner, displays it at 4× size, and shows the BNR1 or BNR2 metadata.
+A native macOS Quick Look extension for GameCube `opening.bnr` files. It decodes the 96×32 RGB5A3 banner, displays it at 4× size, and shows the BNR1 or BNR2 metadata. A thumbnail extension also uses the banner as the file's icon in Finder.
 
 Created by **webhdx**.
 
@@ -15,7 +15,7 @@ Created by **webhdx**.
 1. Open `OpeningBNRQuickLook.xcodeproj` in Xcode.
 2. Select the **OpeningBNRQuickLook** target and choose your development team under Signing & Capabilities.
 3. Build and run the app once.
-4. If macOS asks, enable **Opening BNR Preview** in System Settings → General → Login Items & Extensions → Quick Look.
+4. If macOS asks, enable **Opening BNR Preview** and **Opening BNR Thumbnail** in System Settings → General → Login Items & Extensions → Quick Look.
 5. Select an `opening.bnr` file in Finder and press Space.
 
 If Finder retains an old preview, run `qlmanage -r` and try again.

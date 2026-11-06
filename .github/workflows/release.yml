@@ -29,6 +29,7 @@ jobs:
           version="${RELEASE_TAG#v}"
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" -c "Set :CFBundleVersion $BUILD_NUMBER" App/Info.plist
           /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" -c "Set :CFBundleVersion $BUILD_NUMBER" PreviewExtension/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $version" -c "Set :CFBundleVersion $BUILD_NUMBER" ThumbnailExtension/Info.plist
 
       - name: Test parser
         run: swift test
@@ -50,10 +51,13 @@ jobs:
         run: |
           app="$RUNNER_TEMP/build/Release/OpeningBNRQuickLook.app"
           extension="$app/Contents/PlugIns/OpeningBNRPreview.appex"
+          thumbnail="$app/Contents/PlugIns/OpeningBNRThumbnail.appex"
 
           lipo "$app/Contents/MacOS/OpeningBNRQuickLook" \
             -verify_arch arm64 x86_64
           lipo "$extension/Contents/MacOS/OpeningBNRPreview" \
+            -verify_arch arm64 x86_64
+          lipo "$thumbnail/Contents/MacOS/OpeningBNRThumbnail" \
             -verify_arch arm64 x86_64
           codesign --verify --deep --strict "$app"
 
